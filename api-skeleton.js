@@ -59,8 +59,16 @@ const supabaseUrl = process.env.SUPABASE_URL || 'https://mock.supabase.co';
 const supabaseKey = process.env.SUPABASE_SERVICE_KEY || 'mock-key';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const openaiApiKey = process.env.OPENAI_API_KEY || 'sk-mock-key';
-const openai = new OpenAI({ apiKey: openaiApiKey });
+async function getOpenAI() {
+  let key = process.env.OPENAI_API_KEY;
+  if (!key || key.startsWith('your_') || key.startsWith('sk-mock')) {
+    try {
+      const { data } = await supabase.from('site_content').select('content_value').eq('section_key', 'ai_api_key').single();
+      if (data && data.content_value) key = data.content_value;
+    } catch(e) {}
+  }
+  return new OpenAI({ apiKey: key || 'sk-mock-key' });
+}
 
 /**
  * ══════════════════════════════════════════════════════════════════════
@@ -131,6 +139,7 @@ app.post('/api/admin/upload-rag', upload.single('file'), async (req, res) => {
     for (let i = 0; i < chunks.length; i++) {
       const chunkText = chunks[i].pageContent;
       
+      const openai = await getOpenAI();
       const embeddingRes = await openai.embeddings.create({
         model: "text-embedding-3-small",
         input: chunkText
@@ -225,6 +234,7 @@ app.post('/api/ai/chat', chatLimiter, async (req, res) => {
       
     const systemPrompt = settingsData?.content_value || "You are a helpful AI assistant.";
 
+    const openai = await getOpenAI();
     const queryEmbeddingRes = await openai.embeddings.create({
       model: "text-embedding-3-small",
       input: message

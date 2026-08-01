@@ -531,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const msg = chatInput.value.trim();
       if (!msg) return;
 
-      // Append User Message (Tailwind style)
+      // Append User Message
       const userDiv = document.createElement('div');
       userDiv.className = 'chat-msg user-msg self-end max-w-[85%]';
       userDiv.innerHTML = `<div class="bg-blue-600 text-white rounded-2xl rounded-tr-none p-3 text-sm leading-relaxed">${msg}</div>`;
@@ -543,16 +543,65 @@ document.addEventListener('DOMContentLoaded', () => {
       typingMsg.classList.remove('hidden');
       chatBody.scrollTop = chatBody.scrollHeight;
 
-      // TODO: Call Backend RAG API here (/api/chat)
-      // Simulating network delay for now
-      setTimeout(() => {
+      // Prepare AI Message Container
+      const aiDiv = document.createElement('div');
+      aiDiv.className = 'chat-msg ai-msg self-start max-w-[85%] hidden';
+      const aiBubble = document.createElement('div');
+      aiBubble.className = 'bg-white/5 border border-white/5 rounded-2xl rounded-tl-none p-3 text-sm text-gray-300 leading-relaxed';
+      aiDiv.appendChild(aiBubble);
+      chatBody.insertBefore(aiDiv, typingMsg);
+
+      try {
+        // Change to your live URL in production (e.g., https://api.operixsys.online/api/ai/chat)
+        const CHAT_API_URL = 'http://localhost:3001/api/ai/chat';
+        
+        const response = await fetch(CHAT_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: msg, history: [] })
+        });
+
+        if (!response.ok) throw new Error("Network response was not ok");
+
         typingMsg.classList.add('hidden');
-        const aiDiv = document.createElement('div');
-        aiDiv.className = 'chat-msg ai-msg self-start max-w-[85%]';
-        aiDiv.innerHTML = `<div class="bg-white/5 border border-white/5 rounded-2xl rounded-tl-none p-3 text-sm text-gray-300 leading-relaxed">This is a simulated response. Once the Node.js backend is wired up, I will retrieve context from the vector database and stream the LLM response here.</div>`;
-        chatBody.insertBefore(aiDiv, typingMsg);
-        chatBody.scrollTop = chatBody.scrollHeight;
-      }, 1500);
+        aiDiv.classList.remove('hidden');
+
+        // Read the SSE stream
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let done = false;
+
+        while (!done) {
+          const { value, done: readerDone } = await reader.read();
+          done = readerDone;
+          if (value) {
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split('\n');
+            for (const line of lines) {
+              if (line.startsWith('data: ')) {
+                const dataStr = line.slice(6);
+                if (dataStr === '[DONE]') {
+                  done = true;
+                  break;
+                }
+                try {
+                  const data = JSON.parse(dataStr);
+                  if (data.text) {
+                    aiBubble.innerHTML += data.text.replace(/\n/g, '<br>');
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                  } else if (data.error) {
+                    aiBubble.innerHTML += `<br><span class="text-red-400">[Error: ${data.error}]</span>`;
+                  }
+                } catch (err) {}
+              }
+            }
+          }
+        }
+      } catch (error) {
+        typingMsg.classList.add('hidden');
+        aiDiv.classList.remove('hidden');
+        aiBubble.innerHTML = `<span class="text-red-400">Connection error. Is the backend running?</span>`;
+      }
     });
   }
 });

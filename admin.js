@@ -502,7 +502,9 @@ if (uploadZone && fileInput) {
       const formData = new FormData();
       formData.append('file', file);
       
-      const res = await fetch('http://localhost:3001/api/admin/upload-rag', {
+      // For Production, change this to your hosted backend URL (e.g., https://api.operixsys.online/api/admin/upload-rag)
+      const API_URL = 'http://localhost:3001/api/admin/upload-rag';
+      const res = await fetch(API_URL, {
         method: 'POST',
         body: formData
       });
