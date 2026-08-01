@@ -553,7 +553,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         // Change to your live URL in production (e.g., https://api.operixsys.online/api/ai/chat)
-        const CHAT_API_URL = 'http://localhost:3001/api/ai/chat';
+        const CHAT_API_URL = 'https://api.operixsys.online/api/ai/chat';
         
         const response = await fetch(CHAT_API_URL, {
           method: 'POST',
