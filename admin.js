@@ -28,15 +28,15 @@ navItems.forEach(item => {
   item.addEventListener('click', () => {
     navItems.forEach(n => n.classList.remove('active'));
     panels.forEach(p => p.classList.remove('active'));
-    
+
     item.classList.add('active');
     const target = item.getAttribute('data-target');
     document.getElementById(target).classList.add('active');
     currentPanel = target;
-    
+
     // Update Header
     pageTitle.textContent = item.textContent.trim();
-    
+
     if (target === 'panel-content') {
       btnSaveContent.style.display = 'inline-block';
       btnSaveAI.style.display = 'none';
@@ -70,16 +70,16 @@ navItems.forEach(item => {
 async function loadSiteContent() {
   const { data, error } = await supabaseClient.from('site_content').select('*').order('section_key', { ascending: true });
   if (error) { console.error(error); return; }
-  
+
   const container = document.getElementById('content-forms');
   container.innerHTML = '';
-  
+
   data.forEach(item => {
     const isTextarea = item.content_value.length > 50;
-    const inputHtml = isTextarea 
+    const inputHtml = isTextarea
       ? `<textarea id="sc-${item.id}" rows="3" data-key="${item.section_key}">${item.content_value}</textarea>`
       : `<input type="text" id="sc-${item.id}" data-key="${item.section_key}" value="${item.content_value.replace(/"/g, '&quot;')}" />`;
-      
+
     container.innerHTML += `
       <div class="form-group">
         <label>${item.section_key.replace(/_/g, ' ').toUpperCase()}</label>
@@ -92,13 +92,13 @@ async function loadSiteContent() {
 btnSaveContent.addEventListener('click', async () => {
   btnSaveContent.textContent = 'Saving...';
   const inputs = document.querySelectorAll('#content-forms input, #content-forms textarea');
-  
+
   for (let input of inputs) {
     const key = input.getAttribute('data-key');
     const val = input.value;
     await supabaseClient.from('site_content').update({ content_value: val }).eq('section_key', key);
   }
-  
+
   btnSaveContent.textContent = 'Saved!';
   setTimeout(() => btnSaveContent.textContent = 'Save Changes', 2000);
 });
@@ -120,7 +120,7 @@ async function loadProjects() {
   }
   tbody.innerHTML = data.map(item => `
     <tr>
-      <td><strong>${item.title}</strong><br><span style="font-size:0.8rem; color:#888">${item.description.substring(0,50)}...</span></td>
+      <td><strong>${item.title}</strong><br><span style="font-size:0.8rem; color:#888">${item.description.substring(0, 50)}...</span></td>
       <td><span style="background:rgba(255,255,255,0.1); padding:4px 8px; border-radius:4px; font-size:0.7rem;">${item.badge_text}</span></td>
       <td>${JSON.stringify(item.tags)}</td>
       <td>
@@ -149,7 +149,7 @@ async function loadServices() {
   tbody.innerHTML = data.map(item => `
     <tr>
       <td><strong>${item.title}</strong></td>
-      <td><span style="font-size:0.8rem; color:#888">${item.description.substring(0,80)}...</span></td>
+      <td><span style="font-size:0.8rem; color:#888">${item.description.substring(0, 80)}...</span></td>
       <td>
         <button class="btn btn-sm btn-danger" onclick="deleteRecord('services', '${item.id}')">Del</button>
       </td>
@@ -264,15 +264,15 @@ btnAddNew.addEventListener('click', () => {
 function openModalFor(table, data = null) {
   currentEditingTable = table;
   currentEditingId = data ? data.id : null;
-  
+
   let html = '';
-  
+
   // Helper to escape quotes in HTML attributes
   const esc = (str) => {
     if (str === null || str === undefined) return '';
     return String(str).replace(/"/g, '&quot;');
   };
-  
+
   // Helper to format tags array back to comma string
   const formatTags = (tags) => {
     if (!tags || !Array.isArray(tags)) return '';
@@ -291,7 +291,7 @@ function openModalFor(table, data = null) {
       <div class="form-group"><label>Link URL</label><input type="text" id="add-link" placeholder="#" value="${esc(data?.link_url)}"></div>
       <div class="form-group"><label>Order Index</label><input type="number" id="add-order" value="${esc(data?.order_index || 0)}"></div>
     `;
-  } 
+  }
   else if (table === 'services') {
     modalTitle.textContent = data ? 'Edit Service' : 'Add New Service';
     html = `
@@ -338,9 +338,9 @@ modalClose.addEventListener('click', () => {
 
 modalSave.addEventListener('click', async () => {
   let insertData = {};
-  
+
   modalSave.textContent = "Processing...";
-  
+
   // Handle File Upload (Base64) for Image
   let finalImageUrl = null;
   const imgInput = document.getElementById('add-img');
@@ -401,7 +401,7 @@ modalSave.addEventListener('click', async () => {
   }
 
   modalSave.textContent = "Saving...";
-  
+
   let error;
   if (currentEditingId) {
     // Update existing record
@@ -412,7 +412,7 @@ modalSave.addEventListener('click', async () => {
     const response = await supabaseClient.from(currentEditingTable).insert([insertData]);
     error = response.error;
   }
-  
+
   modalSave.textContent = "Save Entry";
   if (error) {
     alert("Error saving: " + error.message);
@@ -459,7 +459,7 @@ if (btnSaveAI) {
     btnSaveAI.textContent = 'Saving...';
     const promptVal = document.getElementById('ai-system-prompt').value;
     const keyVal = document.getElementById('ai-api-key').value;
-    
+
     const upsertKey = async (key, val) => {
       const { data: existing } = await supabaseClient.from('site_content').select('id').eq('section_key', key).single();
       if (existing) {
@@ -468,12 +468,12 @@ if (btnSaveAI) {
         return supabaseClient.from('site_content').insert({ section_key: key, content_value: val });
       }
     };
-    
+
     const [res1, res2] = await Promise.all([
       upsertKey('ai_system_prompt', promptVal),
       upsertKey('ai_api_key', keyVal)
     ]);
-    
+
     if (res1.error || res2.error) {
       console.error(res1.error || res2.error);
       btnSaveAI.textContent = 'Error!';
@@ -490,7 +490,7 @@ const fileInput = document.getElementById('rag-file-input');
 
 if (uploadZone && fileInput) {
   uploadZone.addEventListener('click', () => fileInput.click());
-  
+
   fileInput.addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -501,26 +501,26 @@ if (uploadZone && fileInput) {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      
+
       // For Production, change this to your hosted backend URL (e.g., https://api.operixsys.online/api/admin/upload-rag)
       const API_URL = 'http://localhost:3001/api/admin/upload-rag';
       const res = await fetch(API_URL, {
         method: 'POST',
         body: formData
       });
-      
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Upload failed');
-      
+
       uploadZone.innerHTML = `<div style="text-align:center;"><p style="color:#10b981; font-weight:600;">Successfully indexed ${file.name}!</p></div>`;
     } catch (err) {
       console.error(err);
       uploadZone.innerHTML = `<div style="text-align:center;"><p style="color:#ef4444; font-weight:600;">API Error: ${err.message}</p><p style="font-size:0.75rem; color:var(--text-dim);">Are you running the Node backend (api-skeleton.js)?</p></div>`;
     }
-    
+
     setTimeout(() => {
       uploadZone.innerHTML = originalContent;
-      fileInput.value = ''; 
+      fileInput.value = '';
     }, 4000);
   });
 }

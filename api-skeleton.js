@@ -234,24 +234,36 @@ app.post('/api/ai/chat', chatLimiter, async (req, res) => {
       
     const systemPrompt = settingsData?.content_value || "You are a helpful AI assistant.";
 
-    const openai = await getOpenAI();
-    const queryEmbeddingRes = await openai.embeddings.create({
-      model: "text-embedding-3-small",
-      input: message
-    });
-    const queryVector = queryEmbeddingRes.data[0].embedding;
+    // Local File System Knowledge Base Approach
+    const fs = require('fs');
+    const path = require('path');
+    const pdfParse = require('pdf-parse');
     
-    const { data: retrievedContexts, error: searchError } = await supabase.rpc('match_documents', {
-      query_embedding: queryVector,
-      match_threshold: 0.75,
-      match_count: 5 
-    });
+    let contextString = "No local documents found.";
+    const kbDir = path.join(__dirname, 'operix');
     
-    if (searchError) throw searchError;
-
-    const contextString = retrievedContexts && retrievedContexts.length > 0 
-      ? retrievedContexts.map(doc => `--- Context from ${doc.filename} ---\n${doc.content}`).join('\n\n')
-      : "No specific company documents found for this query.";
+    try {
+      if (fs.existsSync(kbDir)) {
+        const files = fs.readdirSync(kbDir);
+        let allText = [];
+        for (const filename of files) {
+          const filePath = path.join(kbDir, filename);
+          if (filename.endsWith('.txt') || filename.endsWith('.md')) {
+            const text = fs.readFileSync(filePath, 'utf8');
+            allText.push(`--- Context from ${filename} ---\n${text}`);
+          } else if (filename.endsWith('.pdf')) {
+            const dataBuffer = fs.readFileSync(filePath);
+            const data = await pdfParse(dataBuffer);
+            allText.push(`--- Context from ${filename} ---\n${data.text}`);
+          }
+        }
+        if (allText.length > 0) {
+          contextString = allText.join('\n\n');
+        }
+      }
+    } catch (err) {
+      console.error("Error reading knowledge_base folder:", err);
+    }
 
     const messages = [
       { 
