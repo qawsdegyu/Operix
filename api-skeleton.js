@@ -65,7 +65,10 @@ app.post('/api/ai/chat', chatLimiter, async (req, res) => {
             allText.push(`--- Context from ${filename} ---\n${text}`);
           } else if (filename.endsWith('.pdf')) {
             const dataBuffer = fs.readFileSync(filePath);
-            const parseFunc = typeof pdfParse === 'function' ? pdfParse : (pdfParse.default || pdfParse);
+            let parseFunc = pdfParse;
+            if (typeof pdfParse !== 'function') {
+              parseFunc = pdfParse.default || (pdfParse.pdfParse ? pdfParse.pdfParse : pdfParse);
+            }
             const data = await parseFunc(dataBuffer);
             allText.push(`--- Context from ${filename} ---\n${data.text}`);
           }
