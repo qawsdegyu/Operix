@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operix | Admin Control Panel</title>
+  
+  <!-- Preload Critical Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"></noscript>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+
+  <style>
+    :root {
+      --bg: #050505;
+      --surface: #111;
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #fafafa;
+      --text-dim: #888;
+      --primary: #3b82f6;
+      --danger: #ef4444;
+      --font: 'Inter', sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
+    
+    /* Sidebar */
+    .sidebar { width: 260px; border-right: 1px solid var(--border); background: var(--surface); display: flex; flex-direction: column; padding: 20px 0; }
+    .brand { padding: 0 20px 30px; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; border-bottom: 1px solid var(--border); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .nav-item { padding: 12px 20px; cursor: pointer; display: flex; align-items: center; gap: 12px; color: var(--text-dim); transition: 0.3s; font-weight: 500; }
+    .nav-item:hover, .nav-item.active { color: var(--text); background: rgba(255,255,255,0.03); }
+    
+    /* Main Content */
+    .main { flex-grow: 1; padding: 40px; overflow-y: auto; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; }
+    .header h1 { font-size: 2rem; letter-spacing: -1px; }
+    
+    /* Panel */
+    .panel { display: none; }
+    .panel.active { display: block; }
+    
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { text-align: left; padding: 16px; border-bottom: 1px solid var(--border); }
+    th { color: var(--text-dim); font-weight: 500; font-size: 0.85rem; text-transform: uppercase; }
+    tr:hover { background: rgba(255,255,255,0.02); }
+    
+    /* Buttons */
+    .btn { padding: 8px 16px; background: var(--primary); color: #fff; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+    .btn:hover { opacity: 0.8; }
+    .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+    .btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.2); }
+    
+    /* Forms & Custom Zones */
+    .form-group { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 8px; color: var(--text-dim); font-size: 0.85rem; }
+    input, textarea { width: 100%; padding: 12px; background: var(--bg); border: 1px solid var(--border); color: #fff; border-radius: 6px; font-family: var(--font); }
+    input:focus, textarea:focus { outline: none; border-color: var(--primary); }
+    .upload-zone { border: 2px dashed var(--border); padding: 40px; text-align: center; border-radius: 12px; background: rgba(255,255,255,0.01); cursor: pointer; transition: 0.3s; }
+    .upload-zone:hover { border-color: var(--primary); background: rgba(59, 130, 246, 0.05); }
+    
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center; z-index: 100; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: var(--surface); width: 600px; padding: 30px; border-radius: 12px; border: 1px solid var(--border); }
+    .modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="brand">
+      <i data-lucide="zap"></i> Operix Admin
+    </div>
+    <div class="nav-item active" data-target="panel-content"><i data-lucide="layout"></i> Site Content</div>
+    <div class="nav-item" data-target="panel-projects"><i data-lucide="folder"></i> Projects</div>
+    <div class="nav-item" data-target="panel-services"><i data-lucide="cpu"></i> Services</div>
+    <div class="nav-item" data-target="panel-metrics"><i data-lucide="bar-chart-2"></i> Metrics</div>
+    <div class="nav-item" data-target="panel-team"><i data-lucide="users-2"></i> Team</div>
+    <div class="nav-item" data-target="panel-leads"><i data-lucide="users"></i> Leads</div>
+    <div class="nav-item" data-target="panel-ai"><i data-lucide="bot"></i> AI Agent</div>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1 id="page-title">Site Content</h1>
+      <button class="btn" id="btn-save-content">Save Changes</button>
+      <button class="btn" id="btn-save-ai" style="display: none;">Save System Prompt</button>
+      <button class="btn" id="btn-add-new" style="display: none;">Add New</button>
+    </div>
+
+    <!-- SITE CONTENT PANEL -->
+    <div class="panel active" id="panel-content">
+      <div id="content-forms">
+        <!-- JS will populate forms here -->
+        <p>Loading content...</p>
+      </div>
+    </div>
+
+    <!-- PROJECTS PANEL -->
+    <div class="panel" id="panel-projects">
+      <table>
+        <thead><tr><th>Title</th><th>Badge</th><th>Tags</th><th>Actions</th></tr></thead>
+        <tbody id="projects-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- SERVICES PANEL -->
+    <div class="panel" id="panel-services">
+      <table>
+        <thead><tr><th>Title</th><th>Description</th><th>Actions</th></tr></thead>
+        <tbody id="services-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- METRICS PANEL -->
+    <div class="panel" id="panel-metrics">
+      <table>
+        <thead><tr><th>Label</th><th>Value</th><th>Actions</th></tr></thead>
+        <tbody id="metrics-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- TEAM PANEL -->
+    <div class="panel" id="panel-team">
+      <table>
+        <thead><tr><th>Name</th><th>Role</th><th>Actions</th></tr></thead>
+        <tbody id="team-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- LEADS PANEL -->
+    <div class="panel" id="panel-leads">
+      <table>
+        <thead><tr><th>Name</th><th>Company</th><th>Email</th><th>Budget</th><th>Date</th></tr></thead>
+        <tbody id="leads-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- AI AGENT PANEL -->
+    <div class="panel" id="panel-ai">
+      <div class="form-group">
+        <label>System Prompt / AI Persona</label>
+        <textarea id="ai-system-prompt" rows="8" placeholder="You are Operix AI, an elite autonomous system architect..."></textarea>
+      </div>
+
+      <div class="form-group" style="margin-top: 20px;">
+        <label>OpenAI API Key (Encrypted)</label>
+        <input type="password" id="ai-api-key" placeholder="sk-proj-..." />
+        <span style="font-size:0.75rem;color:var(--text-dim); display:block; margin-top:4px;">Key is used by the backend RAG engine for vectorization and chat completions.</span>
+      </div>
+      
+      <div class="form-group" style="margin-top: 30px;">
+        <label>Knowledge Base (RAG Documents)</label>
+        <div class="upload-zone" id="rag-upload-zone">
+          <i data-lucide="upload-cloud" style="width:40px;height:40px;color:var(--text-dim);margin-bottom:10px;"></i>
+          <p>Drag & drop company documents here (.txt, .pdf, .md) or Click to Browse</p>
+          <span style="font-size:0.75rem;color:var(--text-dim);">Vectors will be automatically generated and stored in the database.</span>
+        </div>
+        <input type="file" id="rag-file-input" accept=".txt,.pdf,.md" style="display: none;" />
+      </div>
+
+      <div class="form-group" style="margin-top: 30px;">
+        <label>Document Library (Currently Indexed)</label>
+        <table>
+          <thead><tr><th>Filename</th><th>Size</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="rag-docs-tbody">
+            <tr>
+              <td>operix_system_architecture.pdf</td>
+              <td>1.2 MB</td>
+              <td style="color:#10b981;">Indexed (42 chunks)</td>
+              <td><button class="btn btn-sm btn-danger">Delete</button></td>
+            </tr>
+            <tr>
+              <td>service_offerings_2024.md</td>
+              <td>24 KB</td>
+              <td style="color:#10b981;">Indexed (15 chunks)</td>
+              <td><button class="btn btn-sm btn-danger">Delete</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- GENERIC MODAL FOR EDITING ROWS -->
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-title">Edit Entry</h2>
+        <i data-lucide="x" style="cursor: pointer;" id="modal-close"></i>
+      </div>
+      <div id="modal-form-container"></div>
+      <div style="margin-top: 20px; text-align: right;">
+        <button class="btn" id="modal-save">Save Entry</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js" defer></script>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      if(window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

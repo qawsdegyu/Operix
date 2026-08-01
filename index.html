@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Operix — Engineering the future of autonomous operations. Custom AI systems, advanced automation, and high-performance platforms." />
+  <meta name="theme-color" content="#000000" />
+  <title>Operix — Engineering the Future of Autonomous Operations</title>
+
+  <!-- Preload Critical Fonts for Performance (Audit Optimization) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700;750;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700;750;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"></noscript>
+  <!-- Tailwind CSS for AI Widget (Preflight Disabled to protect existing CSS) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: { preflight: false }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Global Cursor Spotlight -->
+  <div class="cursor-glow"></div>
+  <!-- Noise Texture -->
+  <div class="noise"></div>
+
+  <!-- ═══ NAVBAR ═══════════════════════════════════════════════ -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <div class="logo-mark"><i data-lucide="zap"></i></div>
+        <span class="logo-name">Operix</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#engine">Services</a></li>
+        <li><a href="#work">Portfolio</a></li>
+        <li><a href="#proof">Results</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="#contact" class="nav-cta dsk">
+          <span>Start Project</span>
+          <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+        </a>
+      </div>
+      <button class="mobile-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu">
+    <a href="#engine">Services</a>
+    <a href="#work">Portfolio</a>
+    <a href="#proof">Results</a>
+    <a href="#contact">Contact</a>
+    <a href="#contact" class="m-cta">Start Project</a>
+  </div>
+
+  <!-- ═══ HERO — CINEMATIC ════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+
+    <div class="hero-content hero-grid">
+      
+      <!-- LEFT: Text & CTAs -->
+      <div class="hero-left">
+        <div class="hero-badge">
+          <span class="pulse"></span>
+          Systems Online
+        </div>
+
+        <h1 class="hero-title-left" data-content-key="hero_title">
+          Engineering the Future of<br/>
+          <span class="gradient-epic">Autonomous Operations.</span>
+        </h1>
+
+        <p class="hero-subtitle-left" data-content-key="hero_subtitle">
+          We build intelligent systems that scale. Custom AI agents, automated workflows, and enterprise platforms — engineered for companies that refuse to stay manual.
+        </p>
+
+        <div class="hero-actions-left">
+          <!-- الزر الرئيسي -->
+          <a href="#contact" class="btn-mag">
+            Initialize Project
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+          
+          <!-- الزر الثانوي -->
+          <a href="#work" class="btn-outline">
+            View Systems
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: Dynamic Engineering Core (Bento) -->
+      <div class="hero-right">
+        <!-- Floating geometric nodes -->
+        <div class="abstract-cloud">
+          <div class="abs-node an-1"></div>
+          <div class="abs-node an-2"></div>
+          <div class="abs-node an-3"></div>
+          <svg class="abs-line" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M10,90 Q40,10 90,50" fill="none" stroke="rgba(59, 130, 246, 0.4)" stroke-width="2" stroke-dasharray="4,4"/>
+          </svg>
+        </div>
+
+        <div class="hero-bento-grid">
+          
+          <!-- Card 1: Terminal -->
+          <div class="h-card terminal-card" id="tilt-terminal">
+            <div class="h-card-glow"></div>
+            <div class="terminal">
+              <div class="terminal-bar">
+                <div class="t-dot r"></div>
+                <div class="t-dot y"></div>
+                <div class="t-dot g"></div>
+                <span class="t-title">operix-engine — zsh</span>
+              </div>
+              <div class="terminal-body compact-logs">
+                <div class="t-line" data-d="300" data-type="cmd">
+                  <span class="pr">▲</span><span class="cm" data-text="operix init --project=&quot;core-systems&quot;"></span>
+                </div>
+                <div class="t-line" data-d="600">
+                  <span class="bl">→</span><span class="ou"> vectorizing database (4.1TB) </span><span class="yl">[indexing: 22%]</span>
+                </div>
+                <div class="t-line" data-d="400">
+                  <span class="bl">→</span><span class="ou"> vectorizing database (4.1TB) </span><span class="yl">[indexing: 89%]</span>
+                </div>
+                <div class="t-line" data-d="700">
+                  <span class="ok">✓</span><span class="ou"> vectorization complete</span>
+                </div>
+                <div class="t-line" data-d="400" data-type="cmd">
+                  <span class="pr">▲</span><span class="cm" data-text="operix deploy --agent mursheed_v7"></span>
+                </div>
+                <div class="t-line" data-d="500">
+                  <span class="ou">⠋ deploying core 'mursheed_v7' agent</span>
+                </div>
+                <div class="t-line" data-d="600">
+                  <span class="ok">✓</span><span class="ou"> RAG architecture deployment synced (AGS-01)</span>
+                </div>
+                <div class="t-line" data-d="400">
+                  <span class="bl">⚡</span><span class="ou"> 14 workflows connected & running</span>
+                </div>
+                <div class="t-line" data-d="300">
+                  <span class="pr">▲</span><span class="t-cursor"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Live Status -->
+          <div class="h-card status-card" id="tilt-status">
+            <div class="h-card-glow"></div>
+            <div class="h-card-content">
+              <h3 class="h-card-title">Live Systems Status</h3>
+              <div class="status-metrics">
+                <div class="sm-item">
+                  <span class="sm-label">System Uptime</span>
+                  <div class="sm-val">
+                    <span class="sm-pulse"></span>
+                    <span class="sm-num">99.998</span><span class="sm-sym">%</span>
+                  </div>
+                </div>
+                <div class="sm-item">
+                  <span class="sm-label">Active Agents</span>
+                  <div class="sm-val">
+                    <span class="sm-num" data-dyn="78">78</span>
+                  </div>
+                </div>
+                <div class="sm-item">
+                  <span class="sm-label">Live Deployments</span>
+                  <div class="sm-val">
+                    <span class="sm-num" data-dyn="421">421</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ MARQUEE ═════════════════════════════════════════════ -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <div class="marquee-item"><span class="m-dot"></span>AI RAG Systems</div>
+      <div class="marquee-item"><span class="m-dot"></span>n8n Automation</div>
+      <div class="marquee-item"><span class="m-dot"></span>WhatsApp Pipelines</div>
+      <div class="marquee-item"><span class="m-dot"></span>Enterprise Dashboards</div>
+      <div class="marquee-item"><span class="m-dot"></span>LangChain Agents</div>
+      <div class="marquee-item"><span class="m-dot"></span>Vector Databases</div>
+      <div class="marquee-item"><span class="m-dot"></span>Custom Web Apps</div>
+      <div class="marquee-item"><span class="m-dot"></span>DevOps & CI/CD</div>
+      <div class="marquee-item"><span class="m-dot"></span>Operations Architecture</div>
+      <div class="marquee-item"><span class="m-dot"></span>Cloud Infrastructure</div>
+      <!-- Duplicate for seamless loop -->
+      <div class="marquee-item"><span class="m-dot"></span>AI RAG Systems</div>
+      <div class="marquee-item"><span class="m-dot"></span>n8n Automation</div>
+      <div class="marquee-item"><span class="m-dot"></span>WhatsApp Pipelines</div>
+      <div class="marquee-item"><span class="m-dot"></span>Enterprise Dashboards</div>
+      <div class="marquee-item"><span class="m-dot"></span>LangChain Agents</div>
+      <div class="marquee-item"><span class="m-dot"></span>Vector Databases</div>
+      <div class="marquee-item"><span class="m-dot"></span>Custom Web Apps</div>
+      <div class="marquee-item"><span class="m-dot"></span>DevOps & CI/CD</div>
+      <div class="marquee-item"><span class="m-dot"></span>Operations Architecture</div>
+      <div class="marquee-item"><span class="m-dot"></span>Cloud Infrastructure</div>
+    </div>
+  </div>
+
+  <!-- ═══ ENGINE ROOM — BENTO ════════════════════════════════ -->
+  <section class="section" id="engine">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-eyebrow" data-content-key="engine_room_eyebrow">// the engine room</p>
+        <h2 class="section-heading" data-content-key="engine_room_title">Systems we <span class="dim">engineer.</span></h2>
+        <p class="section-desc" data-content-key="engine_room_subtitle">From autonomous AI agents to self-running infrastructure — precision-built for infinite scale.</p>
+      </div>
+
+      <div class="bento reveal rv1 premium-bento" id="dynamic-services">
+        <!-- Services will be injected here dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PORTFOLIO ═══════════════════════════════════════════ -->
+  <section class="section" id="work">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-eyebrow" data-content-key="portfolio_eyebrow">// deployed systems</p>
+        <h2 class="section-heading" data-content-key="portfolio_title">Featured <span class="dim">work.</span></h2>
+        <p class="section-desc" data-content-key="portfolio_subtitle">Proprietary platforms engineered for real-world impact.</p>
+      </div>
+
+      <div class="marquee-wrapper reveal rv1">
+        <div class="portfolio-grid spotlight-group" id="dynamic-projects">
+          <!-- Projects will be injected here dynamically -->
+        </div>
+      </div>
+      
+      <div class="reveal rv1" style="text-align: center; margin-top: 3rem;">
+        <a href="projects.html" class="view-all-btn">
+          View All Systems <i data-lucide="arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ THE ARCHITECTS ═══════════════════════════════════════════ -->
+  <section class="section" id="team">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-eyebrow" data-content-key="team_eyebrow">// THE ARCHITECTS</p>
+        <h2 class="section-heading" data-content-key="team_title">The minds engineering your <span class="dim">autonomous future.</span></h2>
+      </div>
+
+      <div class="team-grid reveal rv1 team-group" id="dynamic-team">
+        <!-- Team members will be injected here dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ METRICS ═════════════════════════════════════════════ -->
+  <section class="section" id="proof">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-eyebrow" data-content-key="metrics_eyebrow">// proof of execution</p>
+        <h2 class="section-heading" data-content-key="metrics_title">Measured in <span class="dim">results.</span></h2>
+        <p class="section-desc" data-content-key="metrics_subtitle">Real systems. Real numbers. Real impact.</p>
+      </div>
+
+      <div class="metrics reveal rv1 m-bento-grid" id="dynamic-metrics">
+        <!-- Metrics will be injected here dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT / INTAKE TERMINAL ═════════════════════════════════════════════ -->
+  <section class="section" id="contact">
+    <div class="section-inner">
+      <div class="intake-grid reveal rv1">
+        
+        <!-- Left: The Intake Terminal (Form) -->
+        <div class="intake-terminal">
+          <div class="terminal-header">
+            <div class="t-dots"><span></span><span></span><span></span></div>
+            <div class="t-title">Initialize Deployment</div>
+          </div>
+          <form class="terminal-form" id="contactForm">
+            <div class="tf-row">
+              <div class="tf-group">
+                <label for="fName">Operator Name</label>
+                <input type="text" id="fName" name="fName" placeholder="Enter name..." required />
+              </div>
+              <div class="tf-group">
+                <label for="fEmail">Operator Email</label>
+                <input type="email" id="fEmail" name="fEmail" placeholder="operix006@gmail.com" required />
+              </div>
+            </div>
+            <div class="tf-group">
+              <label for="fPhone">Phone Number</label>
+              <input type="tel" id="fPhone" name="fPhone" placeholder="Enter phone number..." required />
+            </div>
+            <div class="tf-group">
+              <label for="fType">System Requirements</label>
+              <select id="fType" name="fType" required>
+                <option value="">Select Architecture...</option>
+                <option value="rag">RAG AI Agent</option>
+                <option value="web">High-Performance Web Architecture</option>
+                <option value="auto">Complex Workflow Automation</option>
+                <option value="custom">Custom Enterprise System</option>
+              </select>
+            </div>
+            <div class="tf-group">
+              <label for="fBudget">Resource Allocation (Budget)</label>
+              <select id="fBudget" name="fBudget" required>
+                <option value="" disabled selected>Select Range...</option>
+                <option value="under_100">Under $100</option>
+                <option value="100_300">$100 - $300</option>
+                <option value="300_500">$300 - $500</option>
+                <option value="500_1000">$500 - $1,000</option>
+                <option value="1000_plus">$1,000+</option>
+              </select>
+            </div>
+            <button type="submit" class="tf-submit">
+              <span class="tf-submit-text">Initialize Deployment ➔</span>
+              <div class="tf-submit-bg"></div>
+            </button>
+          </form>
+        </div>
+
+        <!-- Right: Text & Trust (Contact Info) -->
+        <div class="intake-text">
+          <div class="intake-status">
+            <span class="pulse-green"></span>
+            System Status: Ready
+          </div>
+          <h2 class="section-heading">Start a <span class="dim">project.</span></h2>
+          <p class="section-desc">Tell us what you're building. We'll engineer how to build it better, faster, and autonomously.</p>
+          
+          <div class="contact-info">
+            <div class="c-item">
+              <div class="c-item-icon"><i data-lucide="mail"></i></div>
+              <div>
+                <h4>System Comms</h4>
+                <p data-content-key="contact_email">operix006@gmail.com</p>
+              </div>
+            </div>
+            <div class="c-item">
+              <div class="c-item-icon"><i data-lucide="phone"></i></div>
+              <div>
+                <h4>Phone</h4>
+                <p data-content-key="contact_phone">07 8515 9906</p>
+              </div>
+            </div>
+            <div class="c-item">
+              <div class="c-item-icon"><i data-lucide="map-pin"></i></div>
+              <div>
+                <h4>Operations</h4>
+                <p data-content-key="contact_address">Headquarters: Amman, Jordan</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="social-links">
+            <a href="#" data-content-key="social_facebook" target="_blank" class="social-icon facebook" aria-label="Facebook">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+            </a>
+            <a href="#" data-content-key="social_instagram" target="_blank" class="social-icon instagram" aria-label="Instagram">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="#" data-content-key="social_whatsapp" target="_blank" class="social-icon whatsapp" aria-label="WhatsApp">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#" class="logo">
+            <div class="logo-mark"><i data-lucide="zap" style="width:13px;height:13px;color:#fff;"></i></div>
+            <span class="logo-name">Operix</span>
+          </a>
+          <p>Engineering autonomous AI systems and digital infrastructure for companies that refuse to stay manual.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Systems</h4>
+          <ul>
+            <li><a href="#engine">AI & RAG Agents</a></li>
+            <li><a href="#engine">Web Architecture</a></li>
+            <li><a href="#engine">Automation</a></li>
+            <li><a href="#engine">DevOps</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#work">Portfolio</a></li>
+            <li><a href="#proof">Results</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#">Careers</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms & Conditions</a></li>
+            <li><a href="#">Security</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Operix. All systems reserved.</p>
+        <div class="social-links footer-socials">
+          <a href="#" data-content-key="social_instagram" target="_blank" class="social-icon instagram" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href="#" data-content-key="social_facebook" target="_blank" class="social-icon facebook" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+          </a>
+          <a href="#" data-content-key="social_whatsapp" target="_blank" class="social-icon whatsapp" aria-label="WhatsApp">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          </a>
+        </div>
+        <p>Engineered by <a href="#">Operix</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <div class="toast-ic"><i data-lucide="check"></i></div>
+    <div class="toast-tx">
+      <h4>Transmission Received</h4>
+      <p>We'll respond within 24 hours.</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <!-- ═══ AI CHAT WIDGET (TAILWIND) ═════════════════════════════════════════════ -->
+  <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-4 font-['Inter']">
+    
+    <!-- Chat Window (Expanded State) -->
+    <div id="ai-chat-window" class="hidden w-[350px] h-[500px] max-h-[80vh] flex-col rounded-2xl overflow-hidden bg-[#050505]/80 backdrop-blur-xl border border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.8)] transition-all duration-300 origin-bottom-right scale-95 opacity-0">
+      
+      <!-- Header -->
+      <div class="p-4 border-b border-white/10 flex items-center justify-between bg-white/5">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center text-white">
+            <i data-lucide="zap" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h4 class="text-white text-sm font-semibold flex items-center gap-2 m-0">
+              Operix AI
+              <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            </h4>
+            <span class="text-xs text-gray-400">Autonomous Agent</span>
+          </div>
+        </div>
+        <button id="close-chat-btn" class="chat-close text-gray-400 hover:text-white transition-colors bg-transparent border-none cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Messages Area -->
+      <div class="flex-1 overflow-y-auto p-4 flex flex-col gap-3" id="chatBody">
+        <div class="chat-msg ai-msg self-start max-w-[85%]">
+          <div class="bg-white/5 border border-white/5 rounded-2xl rounded-tl-none p-3 text-sm text-gray-300 leading-relaxed">
+            Initializing systems... I am the Operix RAG Agent. How can I assist you with your architecture today?
+          </div>
+        </div>
+        <!-- Typing indicator -->
+        <div class="chat-msg ai-msg typing-msg self-start max-w-[85%] hidden">
+          <div class="bg-white/5 border border-white/5 rounded-2xl rounded-tl-none p-4 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: -0.3s"></span>
+            <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: -0.15s"></span>
+            <span class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="p-4 border-t border-white/10 bg-black/20">
+        <form id="chatForm" class="relative flex items-center m-0">
+          <input type="text" id="chatInput" placeholder="Ask about our systems..." autocomplete="off" class="w-full bg-black/50 border border-white/10 rounded-full pl-4 pr-12 py-3 text-sm text-white focus:outline-none focus:border-blue-500/50 transition-colors placeholder:text-gray-500" />
+          <button type="submit" class="absolute right-1 w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center transition-colors border-none cursor-pointer">
+            <i data-lucide="arrow-up" class="w-4 h-4"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button id="toggle-chat-btn" class="chat-widget-toggle h-14 w-14 rounded-full bg-[#050505] border border-white/20 hover:border-blue-500/50 flex items-center justify-center text-white shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all duration-300 hover:scale-110 group relative cursor-pointer" aria-label="Open AI Assistant">
+      <div class="absolute inset-0 rounded-full bg-blue-500/10 blur-md group-hover:bg-blue-500/20 transition-all"></div>
+      <i data-lucide="bot" class="w-6 h-6 relative z-10 group-hover:text-blue-400 transition-colors"></i>
+    </button>
+  </div>
+
+  <script src="script.js" defer></script>
+  <script defer>
+    // Create icons after DOM load due to defer
+    document.addEventListener('DOMContentLoaded', () => {
+      if(window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

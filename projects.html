@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Projects — Operix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;550;600;650;700;750;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Global Cursor Spotlight -->
+  <div class="cursor-glow"></div>
+  <div class="noise"></div>
+
+  <!-- ═══ NAVBAR ═══════════════════════════════════════════════ -->
+  <nav class="nav" style="background: rgba(5,5,5,0.8); backdrop-filter: blur(10px);">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-mark"><i data-lucide="zap"></i></div>
+        <span class="logo-name">Operix</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Back to Home</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ═══ ALL PROJECTS ═══════════════════════════════════════════ -->
+  <section class="section" id="work" style="padding-top: 150px; min-height: 100vh;">
+    <div class="section-inner">
+      <div class="reveal">
+        <p class="section-eyebrow">// FULL ARCHIVE</p>
+        <h2 class="section-heading">All <span class="dim">Projects.</span></h2>
+        <p class="section-desc">Every architecture we have deployed.</p>
+      </div>
+
+      <div class="portfolio-grid-all spotlight-group" id="dynamic-all-projects">
+        <!-- Projects will be injected here dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ══════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-bottom">
+        <p>&copy; 2026 Operix. All systems reserved.</p>
+        <p>Engineered by <a href="#">Operix</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+  <script>
+    // Fetch and inject ALL projects in grid layout
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const { data, error } = await supabaseClient.from('projects').select('*').order('order_index', { ascending: true });
+        if (error) throw error;
+        const container = document.getElementById('dynamic-all-projects');
+        if (!container) return;
+        
+        container.innerHTML = data.map(item => `
+          <div class="pf-card ${item.theme_class}" style="min-width: auto; flex: none;">
+            <div class="pf-visual">
+              ${item.visual_html}
+              <div class="pf-visual-overlay"></div>
+            </div>
+            <div class="pf-body">
+              <div class="pf-badge ${item.theme_class.includes('murshid') ? 'gold' : 'sys'}">${item.badge_text}</div>
+              <h3>${item.title}</h3>
+              <p>${item.description}</p>
+              <div class="pf-stack">
+                ${item.tags.map(tag => `<span class="pf-stack-tag">${tag}</span>`).join('')}
+              </div>
+              <div class="pf-action">
+                <a href="${item.link_url}" class="pf-btn">View Architecture <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) { console.error('CMS Error:', err); }
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
