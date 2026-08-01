@@ -10,6 +10,7 @@ const pdfParse = require('pdf-parse');
 
 // Initialize Express App & Middlewares
 const app = express();
+app.set('trust proxy', 1);
 app.use(cors({ origin: '*', methods: ['GET', 'POST', 'DELETE', 'OPTIONS'] }));
 
 app.use(express.json());

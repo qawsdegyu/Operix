@@ -561,8 +561,14 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify({ message: msg, history: [] })
         });
 
-        if (!response.ok) throw new Error("Network response was not ok");
-
+        if (!response.ok) {
+          let errMsg = "Network response was not ok";
+          try {
+            const errData = await response.json();
+            if (errData.error) errMsg = errData.error;
+          } catch (e) {}
+          throw new Error(errMsg);
+        }
         typingMsg.classList.add('hidden');
         aiDiv.classList.remove('hidden');
 
@@ -600,7 +606,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (error) {
         typingMsg.classList.add('hidden');
         aiDiv.classList.remove('hidden');
-        aiBubble.innerHTML = `<span class="text-red-400">Connection error. Is the backend running?</span>`;
+        aiBubble.innerHTML = `<span class="text-red-400">Error: ${error.message}</span>`;
       }
     });
   }

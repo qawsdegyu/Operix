@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "api-skeleton.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": "operix/**"
+      }
     },
     {
       "src": "**/*",
