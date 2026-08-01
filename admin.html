@@ -258,14 +258,12 @@
     <div class="nav-item" data-target="panel-metrics"><i data-lucide="bar-chart-2"></i> Metrics</div>
     <div class="nav-item" data-target="panel-team"><i data-lucide="users-2"></i> Team</div>
     <div class="nav-item" data-target="panel-leads"><i data-lucide="users"></i> Leads</div>
-    <div class="nav-item" data-target="panel-ai"><i data-lucide="bot"></i> AI Agent</div>
   </div>
 
   <div class="main">
     <div class="header">
       <h1 id="page-title">Site Content</h1>
       <button class="btn" id="btn-save-content">Save Changes</button>
-      <button class="btn" id="btn-save-ai" style="display: none;">Save System Prompt</button>
       <button class="btn" id="btn-add-new" style="display: none;">Add New</button>
     </div>
 
@@ -349,60 +347,6 @@
         <tbody id="leads-tbody"></tbody>
       </table>
     </div>
-
-    <!-- AI AGENT PANEL -->
-    <div class="panel" id="panel-ai">
-      <div class="form-group">
-        <label>System Prompt / AI Persona</label>
-        <textarea id="ai-system-prompt" rows="8"
-          placeholder="You are Operix AI, an elite autonomous system architect..."></textarea>
-      </div>
-
-      <div class="form-group" style="margin-top: 20px;">
-        <label>OpenAI API Key (Encrypted)</label>
-        <input type="password" id="ai-api-key" placeholder="sk-proj-..." />
-        <span style="font-size:0.75rem;color:var(--text-dim); display:block; margin-top:4px;">Key is used by the backend
-          RAG engine for vectorization and chat completions.</span>
-      </div>
-
-      <div class="form-group" style="margin-top: 30px;">
-        <label>Knowledge Base (RAG Documents)</label>
-        <div class="upload-zone" id="rag-upload-zone">
-          <i data-lucide="upload-cloud" style="width:40px;height:40px;color:var(--text-dim);margin-bottom:10px;"></i>
-          <p>Drag & drop company documents here (.txt, .pdf, .md) or Click to Browse</p>
-          <span style="font-size:0.75rem;color:var(--text-dim);">Vectors will be automatically generated and stored in
-            the database.</span>
-        </div>
-        <input type="file" id="rag-file-input" accept=".txt,.pdf,.md" style="display: none;" />
-      </div>
-
-      <div class="form-group" style="margin-top: 30px;">
-        <label>Document Library (Currently Indexed)</label>
-        <table>
-          <thead>
-            <tr>
-              <th>Filename</th>
-              <th>Size</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="rag-docs-tbody">
-            <tr>
-              <td>operix_system_architecture.pdf</td>
-              <td>1.2 MB</td>
-              <td style="color:#10b981;">Indexed (42 chunks)</td>
-              <td><button class="btn btn-sm btn-danger">Delete</button></td>
-            </tr>
-            <tr>
-              <td>service_offerings_2024.md</td>
-              <td>24 KB</td>
-              <td style="color:#10b981;">Indexed (15 chunks)</td>
-              <td><button class="btn btn-sm btn-danger">Delete</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </div>
   </div>
 

@@ -10,8 +10,6 @@ const panels = document.querySelectorAll('.panel');
 const pageTitle = document.getElementById('page-title');
 const btnSaveContent = document.getElementById('btn-save-content');
 const btnAddNew = document.getElementById('btn-add-new');
-const btnSaveAI = document.getElementById('btn-save-ai');
-
 // Modal Elements
 const modalOverlay = document.getElementById('edit-modal');
 const modalClose = document.getElementById('modal-close');
@@ -44,17 +42,10 @@ navItems.forEach(item => {
       loadSiteContent();
     } else if (target === 'panel-leads') {
       btnSaveContent.style.display = 'none';
-      btnSaveAI.style.display = 'none';
       btnAddNew.style.display = 'none';
       loadLeads();
-    } else if (target === 'panel-ai') {
-      btnSaveContent.style.display = 'none';
-      btnSaveAI.style.display = 'inline-block';
-      btnAddNew.style.display = 'none';
-      loadAI();
     } else {
       btnSaveContent.style.display = 'none';
-      btnSaveAI.style.display = 'none';
       btnAddNew.style.display = 'inline-block';
       if (target === 'panel-projects') loadProjects();
       if (target === 'panel-services') loadServices();
@@ -437,93 +428,7 @@ modalOverlay.addEventListener('click', (e) => {
 });
 
 // ==========================================
-// ==========================================
-// 8. AI AGENT PANEL
-// ==========================================
-async function loadAI() {
-  const { data, error } = await supabaseClient
-    .from('site_content')
-    .select('section_key, content_value')
-    .in('section_key', ['ai_system_prompt', 'ai_api_key']);
-
-  if (!error && data) {
-    data.forEach(item => {
-      if (item.section_key === 'ai_system_prompt') document.getElementById('ai-system-prompt').value = item.content_value;
-      if (item.section_key === 'ai_api_key') document.getElementById('ai-api-key').value = item.content_value;
-    });
-  }
-}
-
-if (btnSaveAI) {
-  btnSaveAI.addEventListener('click', async () => {
-    btnSaveAI.textContent = 'Saving...';
-    const promptVal = document.getElementById('ai-system-prompt').value;
-    const keyVal = document.getElementById('ai-api-key').value;
-
-    const upsertKey = async (key, val) => {
-      const { data: existing } = await supabaseClient.from('site_content').select('id').eq('section_key', key).single();
-      if (existing) {
-        return supabaseClient.from('site_content').update({ content_value: val }).eq('section_key', key);
-      } else {
-        return supabaseClient.from('site_content').insert({ section_key: key, content_value: val });
-      }
-    };
-
-    const [res1, res2] = await Promise.all([
-      upsertKey('ai_system_prompt', promptVal),
-      upsertKey('ai_api_key', keyVal)
-    ]);
-
-    if (res1.error || res2.error) {
-      console.error(res1.error || res2.error);
-      btnSaveAI.textContent = 'Error!';
-    } else {
-      btnSaveAI.textContent = 'Saved!';
-    }
-    setTimeout(() => btnSaveAI.textContent = 'Save System Prompt', 2000);
-  });
-}
-
-// RAG Document Upload Logic
-const uploadZone = document.getElementById('rag-upload-zone');
-const fileInput = document.getElementById('rag-file-input');
-
-if (uploadZone && fileInput) {
-  uploadZone.addEventListener('click', () => fileInput.click());
-
-  fileInput.addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const originalContent = uploadZone.innerHTML;
-    uploadZone.innerHTML = `<div style="text-align:center;"><p style="color:var(--primary); font-weight:600;">Processing & Vectorizing ${file.name}...</p></div>`;
-
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      // For Production, change this to your hosted backend URL (e.g., https://api.operixsys.online/api/admin/upload-rag)
-      const API_URL = 'http://localhost:3001/api/admin/upload-rag';
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        body: formData
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Upload failed');
-
-      uploadZone.innerHTML = `<div style="text-align:center;"><p style="color:#10b981; font-weight:600;">Successfully indexed ${file.name}!</p></div>`;
-    } catch (err) {
-      console.error(err);
-      uploadZone.innerHTML = `<div style="text-align:center;"><p style="color:#ef4444; font-weight:600;">API Error: ${err.message}</p><p style="font-size:0.75rem; color:var(--text-dim);">Are you running the Node backend (api-skeleton.js)?</p></div>`;
-    }
-
-    setTimeout(() => {
-      uploadZone.innerHTML = originalContent;
-      fileInput.value = '';
-    }, 4000);
-  });
-}
+// // End of admin.js
 
 // Init load
 loadSiteContent();
