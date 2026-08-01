@@ -552,8 +552,8 @@ document.addEventListener('DOMContentLoaded', () => {
       chatBody.insertBefore(aiDiv, typingMsg);
 
       try {
-        // Change to your live URL in production (e.g., https://api.operixsys.online/api/ai/chat)
-        const CHAT_API_URL = 'https://api.operixsys.online/api/ai/chat';
+        // Change to your live URL in production or use relative path if hosted together
+        const CHAT_API_URL = '/api/ai/chat';
         
         const response = await fetch(CHAT_API_URL, {
           method: 'POST',
