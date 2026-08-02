@@ -10,6 +10,9 @@ const panels = document.querySelectorAll('.panel');
 const pageTitle = document.getElementById('page-title');
 const btnSaveContent = document.getElementById('btn-save-content');
 const btnAddNew = document.getElementById('btn-add-new');
+const btnSaveAI = document.getElementById('btn-save-ai');
+const aiContextTextarea = document.getElementById('ai-context-textarea');
+
 // Modal Elements
 const modalOverlay = document.getElementById('edit-modal');
 const modalClose = document.getElementById('modal-close');
@@ -37,15 +40,22 @@ navItems.forEach(item => {
 
     if (target === 'panel-content') {
       btnSaveContent.style.display = 'inline-block';
-      btnSaveAI.style.display = 'none';
+      if (btnSaveAI) btnSaveAI.style.display = 'none';
       btnAddNew.style.display = 'none';
       loadSiteContent();
+    } else if (target === 'panel-ai') {
+      btnSaveContent.style.display = 'none';
+      if (btnSaveAI) btnSaveAI.style.display = 'inline-block';
+      btnAddNew.style.display = 'none';
+      loadAIContext();
     } else if (target === 'panel-leads') {
       btnSaveContent.style.display = 'none';
+      if (btnSaveAI) btnSaveAI.style.display = 'none';
       btnAddNew.style.display = 'none';
       loadLeads();
     } else {
       btnSaveContent.style.display = 'none';
+      if (btnSaveAI) btnSaveAI.style.display = 'none';
       btnAddNew.style.display = 'inline-block';
       if (target === 'panel-projects') loadProjects();
       if (target === 'panel-services') loadServices();
@@ -54,6 +64,49 @@ navItems.forEach(item => {
     }
   });
 });
+
+// ==========================================
+// 0. AI CONTEXT
+// ==========================================
+async function loadAIContext() {
+  try {
+    const res = await fetch('/api/ai/context');
+    const data = await res.json();
+    if (data.context) {
+      aiContextTextarea.value = data.context;
+    }
+  } catch (err) {
+    console.error("Error loading context:", err);
+  }
+}
+
+if (btnSaveAI) {
+  btnSaveAI.addEventListener('click', async () => {
+    const contextValue = aiContextTextarea.value;
+    btnSaveAI.textContent = 'Saving...';
+    btnSaveAI.disabled = true;
+    
+    try {
+      const res = await fetch('/api/ai/context', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ context: contextValue })
+      });
+      
+      if (res.ok) {
+        alert('✅ AI Context successfully updated!');
+      } else {
+        alert('❌ Error saving context.');
+      }
+    } catch (err) {
+      console.error("Error saving context:", err);
+      alert('❌ Connection Error.');
+    } finally {
+      btnSaveAI.textContent = 'Save AI Context';
+      btnSaveAI.disabled = false;
+    }
+  });
+}
 
 // ==========================================
 // 1. SITE CONTENT

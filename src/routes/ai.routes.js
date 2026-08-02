@@ -12,4 +12,8 @@ const chatLimiter = rateLimit({
 
 router.post('/chat', chatLimiter, aiController.handleChat.bind(aiController));
 
+// Admin routes for updating AI Context
+router.get('/context', aiController.getContext.bind(aiController));
+router.post('/context', aiController.updateContext.bind(aiController));
+
 module.exports = router;

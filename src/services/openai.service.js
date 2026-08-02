@@ -1,21 +1,22 @@
 const { OpenAI } = require('openai');
 
 class OpenAIService {
-  constructor() {
-    this.openai = new OpenAI({
-      baseURL: "https://openrouter.ai/api/v1",
-      apiKey: process.env.OPENAI_API_KEY,
+  async createChatCompletionStream(messages, apiKey) {
+    if (!apiKey) throw new Error("OpenAI API Key is missing or invalid.");
+
+    // Instantiate a new OpenAI client per request with the dynamic API key
+    const openai = new OpenAI({
+      baseURL: "https://openrouter.ai/api/v1", // Using OpenRouter as configured previously
+      apiKey: apiKey,
       defaultHeaders: {
         "HTTP-Referer": "https://operixsys.online",
         "X-Title": "Operix"
       }
     });
-  }
 
-  async createChatCompletionStream(messages) {
     try {
-      const stream = await this.openai.chat.completions.create({
-        model: "openai/gpt-4o-mini", // Using the model currently configured
+      const stream = await openai.chat.completions.create({
+        model: "openai/gpt-4o-mini",
         messages: messages,
         stream: true,
         temperature: 0.3,

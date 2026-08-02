@@ -258,6 +258,7 @@
     <div class="nav-item" data-target="panel-metrics"><i data-lucide="bar-chart-2"></i> Metrics</div>
     <div class="nav-item" data-target="panel-team"><i data-lucide="users-2"></i> Team</div>
     <div class="nav-item" data-target="panel-leads"><i data-lucide="users"></i> Leads</div>
+    <div class="nav-item" data-target="panel-ai"><i data-lucide="bot"></i> AI Context</div>
   </div>
 
   <div class="main">
@@ -265,6 +266,15 @@
       <h1 id="page-title">Site Content</h1>
       <button class="btn" id="btn-save-content">Save Changes</button>
       <button class="btn" id="btn-add-new" style="display: none;">Add New</button>
+    </div>
+
+    <!-- AI CONTEXT PANEL -->
+    <div class="panel" id="panel-ai">
+      <div class="form-group">
+        <label>Company Knowledge Base (AI Context)</label>
+        <textarea id="ai-context-textarea" rows="15" placeholder="Enter the text you want the AI to reply from..."></textarea>
+      </div>
+      <button class="btn" id="btn-save-ai">Save AI Context</button>
     </div>
 
     <!-- SITE CONTENT PANEL -->
