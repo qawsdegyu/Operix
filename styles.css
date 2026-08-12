@@ -1846,12 +1846,19 @@ body {
 }
 .tc-tags span {
   font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--text-3);
-  background: rgba(255, 255, 255, 0.03);
-  padding: 4px 8px;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.75rem;
+  color: var(--text-2);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.5px;
+  transition: all 0.3s var(--ease);
+}
+.tc-tags span:hover {
+  color: var(--text-1);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
 }
 .tc-socials {
   display: flex;

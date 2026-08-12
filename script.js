@@ -327,7 +327,7 @@ async function loadTeam() {
             <p class="tc-desc">${desc}</p>
             <div class="tc-footer">
               <div class="tc-tags">
-                ${tags.map(tag => `<span>[${escapeHtml(tag)}]</span>`).join('')}
+                ${tags.map(tag => `<span>${escapeHtml(tag)}</span>`).join('')}
               </div>
             </div>
           </div>
