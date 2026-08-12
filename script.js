@@ -397,8 +397,12 @@ function initInteractions() {
   // ═══ SMOOTH SCROLL ═════════════════════════════════════════════
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
-      const t = document.querySelector(a.getAttribute('href'));
-      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+      const href = a.getAttribute('href');
+      if (href === '#') return; // Ignore empty hash links
+      try {
+        const t = document.querySelector(href);
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+      } catch (err) {}
     });
   });
 
