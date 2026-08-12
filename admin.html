@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operix | Admin Control Panel</title>
+  <link rel="icon" type="image/png" href="logo.png" />
+
+  <!-- Preload Critical Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  </noscript>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- i18n Engine -->
+  <script src="i18n.js"></script>
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="admin_testimonials.js" defer></script>
+
+  <style>
+    :root {
+      --bg: #050505;
+      --surface: #111;
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #fafafa;
+      --text-dim: #888;
+      --primary: #3b82f6;
+      --danger: #ef4444;
+      --font: 'Inter', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      border-right: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0;
+    }
+
+    .brand {
+      padding: 0 20px 30px;
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.5px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-item {
+      padding: 12px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-dim);
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* Main Content */
+    .main {
+      flex-grow: 1;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      letter-spacing: -1px;
+    }
+
+    /* Panel */
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      color: var(--text-dim);
+      font-weight: 500;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 8px 16px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.2);
+    }
+
+    /* Forms & Custom Zones */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: #fff;
+      border-radius: 6px;
+      font-family: var(--font);
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .upload-zone {
+      border: 2px dashed var(--border);
+      padding: 40px;
+      text-align: center;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.01);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .upload-zone:hover {
+      border-color: var(--primary);
+      background: rgba(59, 130, 246, 0.05);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--surface);
+      width: 600px;
+      padding: 30px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    /* ── Language Switcher ─────────────────────────────── */
+    .lang-switcher {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-family: var(--font);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .lang-switcher:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: var(--text);
+    }
+    .lang-flag { font-size: 1rem; }
+    .lang-label { font-size: 0.75rem; font-weight: 700; font-family: monospace; }
+
+    /* ── RTL Admin ─────────────────────────────────────── */
+    :root { --font-ar: 'Cairo', 'Segoe UI', Tahoma, Arial, sans-serif; }
+
+    [dir="rtl"] body { font-family: var(--font-ar); }
+    [dir="rtl"] .sidebar { border-right: none; border-left: 1px solid var(--border); }
+    [dir="rtl"] .brand { flex-direction: row-reverse; }
+    [dir="rtl"] .nav-item { flex-direction: row-reverse; }
+    [dir="rtl"] .header { flex-direction: row-reverse; }
+    [dir="rtl"] table { direction: rtl; }
+    [dir="rtl"] th, [dir="rtl"] td { text-align: right; }
+    [dir="rtl"] .modal-header { flex-direction: row-reverse; }
+    [dir="rtl"] label { text-align: right; }
+    [dir="rtl"] .form-group { text-align: right; }
+
+    /* Arabic font import */
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+  </style>
+</head>
+
+<body>
+
+  <!-- ── Admin Password Gate ──────────────────────────────── -->
+  <div id="admin-gate" style="position:fixed;inset:0;background:#050505;display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:20px;font-family:Inter,sans-serif">
+    <div style="text-align:center">
+      <div style="font-size:1.5rem;font-weight:800;color:#fafafa;margin-bottom:4px">⚡ Operix Admin</div>
+      <div style="font-size:0.85rem;color:#888">Authorized access only</div>
+    </div>
+    <input id="admin-pass" type="password" placeholder="Enter admin password" autocomplete="current-password"
+      style="padding:12px 20px;background:#111;border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:8px;font-size:1rem;outline:none;width:280px;text-align:center"
+      onkeydown="if(event.key==='Enter')checkAdminPass()">
+    <button onclick="checkAdminPass()" style="padding:12px 32px;background:#3b82f6;color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.95rem">Unlock</button>
+    <div id="gate-error" style="color:#ef4444;font-size:0.85rem;display:none">Incorrect password. Try again.</div>
+  </div>
+
+  <script>
+    // Simple client-side password gate — prevents casual discovery, not a substitute for proper auth
+    (function() {
+      const SESSION_KEY = 'operix_admin_auth';
+      function checkAdminPass() {
+        const pass = document.getElementById('admin-pass').value;
+        // Hash check: use a simple comparison (change this value to your desired password)
+        if (pass === 'Operix@Admin2025') {
+          sessionStorage.setItem(SESSION_KEY, '1');
+          document.getElementById('admin-gate').style.display = 'none';
+        } else {
+          document.getElementById('gate-error').style.display = 'block';
+          document.getElementById('admin-pass').value = '';
+        }
+      }
+      window.checkAdminPass = checkAdminPass;
+      // If already authenticated this session, hide the gate
+      if (sessionStorage.getItem(SESSION_KEY) === '1') {
+        document.addEventListener('DOMContentLoaded', () => {
+          const gate = document.getElementById('admin-gate');
+          if (gate) gate.style.display = 'none';
+        });
+      }
+    })();
+  </script>
+
+  <div class="sidebar">
+    <div class="brand">
+      <i data-lucide="zap"></i> <span data-i18n="admin.brand">Operix Admin</span>
+    </div>
+    <!-- Language Switcher in Sidebar -->
+    <div style="padding: 0 20px 16px; border-bottom: 1px solid var(--border); margin-bottom: 12px;">
+      <button class="lang-switcher" id="admin-lang-switcher" style="width:100%;justify-content:center;padding:8px 12px;" aria-label="Switch language">
+        <span class="lang-flag">🇺🇸</span>
+        <span class="lang-label">ع</span>
+      </button>
+    </div>
+    <div class="nav-item active" data-target="panel-content"><i data-lucide="layout"></i> <span data-i18n="admin.site_content">Site Content</span></div>
+    <div class="nav-item" data-target="panel-projects"><i data-lucide="folder"></i> <span data-i18n="admin.projects">Projects</span></div>
+    <div class="nav-item" data-target="panel-services"><i data-lucide="cpu"></i> <span data-i18n="admin.services">Services</span></div>
+    <div class="nav-item" data-target="panel-testimonials"><i data-lucide="message-square"></i> <span data-i18n="admin.testimonials">Testimonials</span></div>
+    <div class="nav-item" data-target="panel-metrics"><i data-lucide="bar-chart-2"></i> <span data-i18n="admin.metrics">Metrics</span></div>
+    <div class="nav-item" data-target="panel-team"><i data-lucide="users-2"></i> <span data-i18n="admin.team">Team</span></div>
+    <div class="nav-item" data-target="panel-leads"><i data-lucide="users"></i> <span data-i18n="admin.leads">Leads</span></div>
+    <div class="nav-item" data-target="panel-ai"><i data-lucide="bot"></i> <span data-i18n="admin.ai_context">AI Context</span></div>
+  </div>
+
+  <div class="main">
+    <div class="header">
+      <h1 id="page-title" data-i18n="admin.site_content">Site Content</h1>
+      <button class="btn" id="btn-save-content" data-i18n="admin.save_changes">Save Changes</button>
+      <button class="btn" id="btn-add-new" style="display: none;" data-i18n="admin.add_new">Add New</button>
+    </div>
+
+    <!-- AI CONTEXT PANEL -->
+    <div class="panel" id="panel-ai">
+      <div class="form-group">
+        <label data-i18n="admin.ai_label">Company Knowledge Base (AI Context)</label>
+        <textarea id="ai-context-textarea" rows="15" data-i18n-placeholder="admin.ai_placeholder" placeholder="Enter the text you want the AI to reply from..."></textarea>
+      </div>
+      <button class="btn" id="btn-save-ai" data-i18n="admin.save_ai">Save AI Context</button>
+    </div>
+
+    <!-- SITE CONTENT PANEL -->
+    <div class="panel active" id="panel-content">
+      <div id="content-forms">
+        <!-- JS will populate forms here -->
+        <p>Loading content...</p>
+      </div>
+    </div>
+    <!-- MODALS -->
+
+  <!-- TESTIMONIALS MODAL -->
+  <div class="modal-overlay" id="modal-testimonials">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="testimonials-modal-title">Add Testimonial</h3>
+        <button class="btn btn-danger" onclick="closeModal('modal-testimonials')"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="test-id">
+        <div class="form-group">
+          <label>Quote (EN)</label>
+          <textarea id="test-quote" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Quote (AR)</label>
+          <textarea id="test-quote-ar" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Author Name (EN)</label>
+          <input type="text" id="test-name" required>
+        </div>
+        <div class="form-group">
+          <label>Author Name (AR)</label>
+          <input type="text" id="test-name-ar">
+        </div>
+        <div class="form-group">
+          <label>Role / Company (EN)</label>
+          <input type="text" id="test-role" required>
+        </div>
+        <div class="form-group">
+          <label>Role / Company (AR)</label>
+          <input type="text" id="test-role-ar">
+        </div>
+        <div class="form-group">
+          <label>Project Link</label>
+          <input type="text" id="test-link" placeholder="e.g. /projects/techflow or https://...">
+        </div>
+        <div class="form-group">
+          <label>Order Index</label>
+          <input type="number" id="test-order" value="0">
+        </div>
+        <button class="btn" style="width: 100%; margin-top: 10px;" onclick="saveTestimonial()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS PANEL -->
+    <div class="panel" id="panel-projects">
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="admin.title_col">Title</th>
+            <th data-i18n="admin.badge_col">Badge</th>
+            <th data-i18n="admin.tags_col">Tags</th>
+            <th data-i18n="admin.actions_col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="projects-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- SERVICES PANEL -->
+    <div class="panel" id="panel-services">
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="admin.title_col">Title</th>
+            <th data-i18n="admin.desc_col">Description</th>
+            <th data-i18n="admin.actions_col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="services-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- METRICS PANEL -->
+    <div class="panel" id="panel-metrics">
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="admin.label_col">Label</th>
+            <th data-i18n="admin.value_col">Value</th>
+            <th data-i18n="admin.actions_col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="metrics-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- TEAM PANEL -->
+    <div class="panel" id="panel-team">
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="admin.name_col">Name</th>
+            <th data-i18n="admin.role_col">Role</th>
+            <th data-i18n="admin.actions_col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="team-tbody"></tbody>
+      </table>
+    </div>
+
+    <!-- TESTIMONIALS PANEL -->
+    <div class="panel" id="panel-testimonials">
+      <table id="testimonials-table">
+        <thead>
+          <tr>
+            <th>Author Name</th>
+            <th>Role / Company</th>
+            <th>Project Link</th>
+            <th>Order</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Populated by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- LEADS PANEL -->
+    <div class="panel" id="panel-leads">
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="admin.name_col">Name</th>
+            <th data-i18n="admin.phone_col">Phone</th>
+            <th data-i18n="admin.email_col">Email</th>
+            <th data-i18n="admin.details_col">Project Details</th>
+            <th data-i18n="admin.date_col">Date</th>
+          </tr>
+        </thead>
+        <tbody id="leads-tbody"></tbody>
+      </table>
+    </div>
+    </div>
+  </div>
+
+  <!-- GENERIC MODAL FOR EDITING ROWS -->
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modal-title" data-i18n="admin.edit_entry">Edit Entry</h2>
+        <i data-lucide="x" style="cursor: pointer;" id="modal-close"></i>
+      </div>
+      <div id="modal-form-container"></div>
+      <div style="margin-top: 20px; text-align: right;">
+        <button class="btn" id="modal-save" data-i18n="admin.save_entry">Save Entry</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js?v=3" defer></script>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+
+</html>

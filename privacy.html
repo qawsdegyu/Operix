@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy | Operix</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      background-color: var(--black);
+      color: var(--text-2);
+      font-family: var(--font);
+      line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Background Glows */
+    .bg-glow-1 {
+      position: fixed;
+      top: -10%;
+      right: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .bg-glow-2 {
+      position: fixed;
+      bottom: -10%;
+      left: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .legal-container {
+      max-width: 800px;
+      margin: 140px auto 80px;
+      padding: 0 2rem;
+      text-align: start;
+      position: relative;
+    }
+
+    .page-header {
+      margin-bottom: 3rem;
+    }
+    
+    .page-header h1 {
+      font-size: 2.75rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+    
+    .page-header p {
+      font-size: 0.95rem;
+      color: var(--text-3);
+    }
+
+    /* Glassmorphism Cards */
+    .legal-card {
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .legal-card:hover {
+      border-color: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .icon-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: #10b981; /* Emerald for privacy */
+    }
+
+    .legal-card h2 {
+      font-size: 1.35rem;
+      color: #fff;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .legal-card p {
+      font-size: 0.95rem;
+      color: var(--text-2);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+
+    /* Improved Back Button */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #10b981;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(16, 185, 129, 0.05);
+      border: 1px solid rgba(16, 185, 129, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .back-link:hover {
+      background: rgba(16, 185, 129, 0.1);
+      transform: translateX(-4px);
+    }
+    
+    /* LTR Specific Overrides */
+    html[dir="ltr"] .nav-inner {
+      flex-direction: row-reverse;
+    }
+    
+    /* RTL Specific Overrides */
+    html[dir="rtl"] .back-link {
+      flex-direction: row-reverse;
+    }
+    
+    html[dir="rtl"] .back-link:hover {
+      transform: translateX(4px);
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-mark"><i data-lucide="zap" style="width:14px;height:14px;color:#fff;"></i></div>
+        <span class="logo-name">Operix</span>
+      </a>
+      <a href="index.html" class="back-link">
+        <i data-lucide="arrow-left" style="width:16px;height:16px;"></i> 
+        <span data-i18n="legal_pages.return_link">Back</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="legal-container">
+    <div class="page-header">
+      <h1 data-i18n="legal_pages.privacy_title">Privacy Policy</h1>
+      <p data-i18n="legal_pages.privacy_last_updated">Last Updated: August 2026</p>
+    </div>
+
+    <div class="legal-card">
+      <div class="card-header">
+        <div class="icon-wrapper">
+          <i data-lucide="database" style="width:20px;height:20px;"></i>
+        </div>
+        <h2 data-i18n="legal_pages.privacy_h1">1. Data Collection</h2>
+      </div>
+      <p data-i18n="legal_pages.privacy_p1">At Operix, we collect strictly necessary data required for initializing project deployments. This includes Operator Name, Corporate Entity data, System Requirements, and Resource Allocations submitted through our Intake Terminal.</p>
+    </div>
+
+    <div class="legal-card">
+      <div class="card-header">
+        <div class="icon-wrapper">
+          <i data-lucide="lock" style="width:20px;height:20px;"></i>
+        </div>
+        <h2 data-i18n="legal_pages.privacy_h2">2. System Security</h2>
+      </div>
+      <p data-i18n="legal_pages.privacy_p2">We deploy enterprise-grade encryption for all communications. Any proprietary data shared during the discovery or architecture phases of development is kept strictly confidential under default NDAs.</p>
+    </div>
+
+    <div class="legal-card">
+      <div class="card-header">
+        <div class="icon-wrapper">
+          <i data-lucide="eye" style="width:20px;height:20px;"></i>
+        </div>
+        <h2 data-i18n="legal_pages.privacy_h3">3. Usage of Information</h2>
+      </div>
+      <p data-i18n="legal_pages.privacy_p3">Your contact details (email and phone number) are used exclusively by our engineering team to establish communication regarding your requested system architectures.</p>
+    </div>
+
+    <div class="legal-card">
+      <div class="card-header">
+        <div class="icon-wrapper">
+          <i data-lucide="mail" style="width:20px;height:20px;"></i>
+        </div>
+        <h2 data-i18n="legal_pages.privacy_h4">4. Contact Us</h2>
+      </div>
+      <p data-i18n="legal_pages.privacy_p4">For questions or requests regarding your data privacy, please contact:</p>
+      <div style="margin-top: 1rem; color: var(--text-2);">
+        <p style="margin-bottom: 0.5rem;"><strong style="color:#fff;" data-i18n="legal_pages.contact_email_label">Email:</strong> operix006@gmail.com</p>
+        <p style="margin-bottom: 0.5rem;"><strong style="color:#fff;" data-i18n="legal_pages.contact_phone_label">Phone:</strong> 07 8515 9906</p>
+        <p style="margin-bottom: 0;"><strong style="color:#fff;" data-i18n="legal_pages.contact_location_label">Location:</strong> Headquarters: Amman, Jordan</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer" style="margin-top: 60px;">
+    <div class="footer-inner">
+      <div class="footer-bottom">
+        <p data-i18n="footer.copyright">&copy; 2026 Operix. All systems reserved.</p>
+        <p><span data-i18n="footer.engineered_by">Engineered by</span> <a href="index.html">Operix</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+  <script src="i18n.js?v=5" defer></script>
+</body>
+</html>

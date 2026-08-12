@@ -1,0 +1,15 @@
+User-agent: *
+Disallow: /admin.html
+Disallow: /admin.js
+Disallow: /admin_testimonials.js
+Disallow: /api/
+Disallow: /init.sql
+Disallow: /migration_i18n.sql
+Disallow: /fix_testimonials_rls.sql
+Disallow: /supabase_testimonials.sql
+
+Allow: /
+Allow: /index.html
+Allow: /privacy.html
+Allow: /terms.html
+Allow: /projects.html

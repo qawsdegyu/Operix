@@ -1,0 +1,136 @@
+{
+  "nav": {
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "results": "Results",
+    "contact": "Contact",
+    "start_project": "Start Project"
+  },
+  "hero": {
+    "badge": "Systems Online",
+    "btn_primary": "Initialize Project",
+    "btn_secondary": "View Systems",
+    "status_live": "Live Systems Status",
+    "status_uptime": "System Uptime",
+    "status_agents": "Active Agents",
+    "status_deployments": "Live Deployments"
+  },
+  "mobile_menu": {
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "results": "Results",
+    "contact": "Contact",
+    "start_project": "Start Project"
+  },
+  "sections": {
+    "view_all": "View All Systems",
+    "system_status_ready": "System Status: Ready"
+  },
+  "contact": {
+    "terminal_title": "Initialize Deployment",
+    "label_name": "Operator Name",
+    "placeholder_name": "Enter name...",
+    "label_email": "Operator Email",
+    "placeholder_email": "operix006@gmail.com",
+    "label_phone": "Phone Number",
+    "placeholder_phone": "Enter phone number...",
+    "label_type": "System Requirements",
+    "type_placeholder": "Select Architecture...",
+    "type_rag": "RAG AI Agent",
+    "type_web": "High-Performance Web Architecture",
+    "type_auto": "Complex Workflow Automation",
+    "type_custom": "Custom Enterprise System",
+    "label_budget": "Resource Allocation (Budget)",
+    "budget_placeholder": "Select Range...",
+    "budget_under100": "Under $100",
+    "budget_100_300": "$100 - $300",
+    "budget_300_500": "$300 - $500",
+    "budget_500_1000": "$500 - $1,000",
+    "budget_1000plus": "$1,000+",
+    "submit": "Initialize Deployment ➔",
+    "heading": "Start a",
+    "heading_dim": "project.",
+    "subheading": "Tell us what you're building. We'll engineer how to build it better, faster, and autonomously.",
+    "info_comms": "System Comms",
+    "info_phone": "Phone",
+    "info_ops": "Operations"
+  },
+  "validation": {
+    "name_required": "Operator name is required.",
+    "email_required": "Email address is required.",
+    "email_invalid": "Please enter a valid email address.",
+    "phone_required": "Phone number is required.",
+    "type_required": "Please select a system type.",
+    "budget_required": "Please select a budget range."
+  },
+  "toast": {
+    "title": "Transmission Received",
+    "body": "We'll respond within 24 hours."
+  },
+  "footer": {
+    "systems": "Systems",
+    "s_ai": "AI & RAG Agents",
+    "s_web": "Web Architecture",
+    "s_auto": "Automation",
+    "s_devops": "DevOps",
+    "company": "Company",
+    "c_portfolio": "Portfolio",
+    "c_results": "Results",
+    "c_contact": "Contact",
+    "c_careers": "Careers",
+    "legal": "Legal",
+    "l_privacy": "Privacy Policy",
+    "l_terms": "Terms & Conditions",
+    "l_security": "Security",
+    "tagline": "Engineering autonomous AI systems and digital infrastructure for companies that refuse to stay manual.",
+    "copyright": "© 2026 Operix. All systems reserved.",
+    "engineered_by": "Engineered by"
+  },
+  "chat": {
+    "title": "Operix AI",
+    "subtitle": "Autonomous Agent",
+    "placeholder": "Ask about our systems...",
+    "welcome": "Initializing systems... I am the Operix RAG Agent. How can I assist you with your architecture today?"
+  },
+  "lang_switcher": {
+    "label": "EN"
+  },
+  "legal_pages": {
+    "privacy_title": "Privacy Policy",
+    "privacy_last_updated": "Last Updated: August 2026",
+    "privacy_h1": "1. Data Collection",
+    "privacy_p1": "At Operix, we collect strictly necessary data required for initializing project deployments. This includes Operator Name, Corporate Entity data, System Requirements, and Resource Allocations submitted through our Intake Terminal.",
+    "privacy_h2": "2. System Security",
+    "privacy_p2": "We deploy enterprise-grade encryption for all communications. Any proprietary data shared during the discovery or architecture phases of development is kept strictly confidential under default NDAs.",
+    "privacy_h3": "3. Usage of Information",
+    "privacy_p3": "Your contact details (email and phone number) are used exclusively by our engineering team to establish communication regarding your requested system architectures.",
+    "privacy_h4": "4. Contact Us",
+    "privacy_p4": "For questions or requests regarding your data privacy, please contact:",
+    
+    "terms_title": "Terms & Conditions",
+    "terms_last_updated": "Last Updated: August 2026",
+    "terms_h1": "1. Introduction",
+    "terms_p1": "Welcome to Operix. By accessing our website and utilizing our engineering services, you agree to be bound by these Terms and Conditions. Please read them carefully before engaging our systems.",
+    "terms_h2": "2. Services Provided",
+    "terms_p2": "Operix specializes in autonomous AI systems, RAG AI agents, complex workflow automation, and high-performance web architecture. All project scopes, timelines, and budgets are defined within individual Statements of Work (SOW) provided prior to deployment.",
+    "terms_h3": "3. Resource Allocation & Pricing",
+    "terms_p3": "All pricing estimations displayed on our platform are represented in Egyptian Pounds (EGP) unless otherwise specified. Final deployment costs depend on system complexity and architecture requirements.",
+    "terms_h4": "4. Intellectual Property",
+    "terms_p4": "Upon final payment and successful deployment, the client retains the intellectual property rights to the custom systems developed, unless explicitly utilizing Operix proprietary underlying models.",
+    "terms_h5": "5. Contact Information",
+    "terms_p5": "For any legal inquiries regarding these terms, please contact our network operations:",
+    
+    "security_title": "Security",
+    "security_last_updated": "Last Updated: August 2026",
+    "security_h1": "1. Infrastructure",
+    "security_p1": "Operix systems are deployed on highly secure, scalable infrastructure designed to protect data integrity and ensure maximum uptime.",
+    "security_h2": "2. Data Protection",
+    "security_p2": "We employ industry-standard encryption protocols for data at rest and in transit. Access to sensitive information is strictly controlled and monitored.",
+    
+    "contact_email_label": "Email:",
+    "contact_phone_label": "Phone:",
+    "contact_location_label": "Location:",
+    
+    "return_link": "Return to Main System"
+  }
+}
